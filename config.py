@@ -15,16 +15,16 @@ class BotSettings:
     logwebid: 로그(봇실행, 에러알림)의 채널의 ID
     logwebtoken: 로그(봇실행, 에러알림)의 채널의 토큰
     """
-    TOKEN = "ODEyMTU2Mzk2NDA5MzIzNTQy.YC8plg.vSzpNl8P50otTJI39zu-6o45xNY"
-    TESTBOT_TOKEN = "ODEyMTcyNTQ2MTgyNjExMDA1.YC84oA.GguaV9Gt_xRi6KFqHdppbU4X8mc"
+    TOKEN = ""
+    TESTBOT_TOKEN = ""
     prefix = "="
     TEST_mode = True
-    developer = [371959898814152717, 473771823415296020]
-    updeveloper = [371959898814152717]
-    state = ["테스트1", "테스트2"]
+    developer = []
+    updeveloper = []
+    state = []
     statetime = 10
 
-    botowner = 371959898814152717
+    botowner = 
 
-    logwebid = 812540252543647759
-    logwebtoken = "niEdZJyREDUL0Avib01x6xW-5B3_KsFzfdNn0e5h7xSr0XgUNZHWcwIzbud62eD-KPe9"
+    logwebid = 
+    logwebtoken = ""
