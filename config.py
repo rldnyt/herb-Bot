@@ -7,10 +7,24 @@ class BotSettings:
     prefix: 봇의 접두사
     TEST_mode: 테스트모드의 실행 여부
     developer: 개발자 권한을 적용할 유저의 ID
+    updeveloper: 개발자 권한보다 더 높은 권한을 적용할 유저의 ID
+    state: 상테메시지들
+    statetime: 상태메시지가 몇초마다 변경되도록 하기
+    botowner: 봇 주인의 ID
+
+    logwebid: 로그(봇실행, 에러알림)의 채널의 ID
+    logwebtoken: 로그(봇실행, 에러알림)의 채널의 토큰
     """
-    TOKEN = ""
-    TESTBOT_TOKEN = ""
-    prefix = ""
-    TEST_mode = False
-    developer = []
-    updeveloper = []
+    TOKEN = "ODEyMTU2Mzk2NDA5MzIzNTQy.YC8plg.vSzpNl8P50otTJI39zu-6o45xNY"
+    TESTBOT_TOKEN = "ODEyMTcyNTQ2MTgyNjExMDA1.YC84oA.GguaV9Gt_xRi6KFqHdppbU4X8mc"
+    prefix = "="
+    TEST_mode = True
+    developer = [371959898814152717, 473771823415296020]
+    updeveloper = [371959898814152717]
+    state = ["테스트1", "테스트2"]
+    statetime = 10
+
+    botowner = 371959898814152717
+
+    logwebid = 812540252543647759
+    logwebtoken = "niEdZJyREDUL0Avib01x6xW-5B3_KsFzfdNn0e5h7xSr0XgUNZHWcwIzbud62eD-KPe9"
