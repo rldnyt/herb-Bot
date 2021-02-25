@@ -64,7 +64,7 @@ class Music(commands.Cog):
             embed.add_field(name="재생 시작",
                             value=f"업로더: [`{vid_author}`]({vid_channel_url})\n제목: [`{vid_title}`]({vid_url})",
                             inline=False)
-            embed.add_field(name="재생 요청자", value=f"{req_by.mention}\n`{req_by}`)", inline=True)
+            embed.add_field(name="재생 요청자", value=f"{req_by.mention}\n(`{req_by}`)", inline=True)
             embed.set_image(url=str(thumb))
             queue["playing"]["vid_url"] = vid_url
             queue["playing"]["vid_title"] = vid_title
@@ -109,6 +109,9 @@ class Music(commands.Cog):
             if voice is None:
                 await voice_channel.connect()
                 voice = ctx.voice_client
+            else:
+                usrss = voice.channel.members
+                if not ctx.author in usrss: return await msg.edit(content=f"{ctx.author.mention} 봇이 있는 음성채널로 들어와주세요!")
             if not voice.is_playing() and not voice.is_paused():
                 self.queues[str(ctx.guild.id)] = {}
             queue = self.queues[str(ctx.guild.id)]
@@ -161,7 +164,7 @@ class Music(commands.Cog):
                 webhook.send(embed=discord.Embed(color=tool.Color.red, title="⚠ ERROR!",description=f"**오류**\n> ```{str(ex)}```\n\n**정보**\n> 사용자 : {ctx.author}\n> └ {ctx.author.mention}\n> └ {ctx.author.id}\n> 서버 : {ctx.guild.name}"))
             else:
                 embed = discord.Embed(title="ERROR!", description="이런! 버그가 일어났어요! 무슨 버그인지 아래을 확인해보세요!", color=tool.Color.red)
-                embed.add_field(name="알수 없는 버그!", value="이런! 이건 유튜브측에서 막은것이기에 개발자도 어떻게 할수가 없어요.. 다시한번 해보세요!", inline=False)
+                embed.add_field(name="알수 없는 버그!", value=str(ex), inline=False)
                 webhook.send(embed=discord.Embed(color=tool.Color.red, title="⚠ ERROR!",description=f"**오류**\n> ```{str(ex)}```\n\n**정보**\n> 사용자 : {ctx.author}\n> └ {ctx.author.mention}\n> └ {ctx.author.id}\n> 서버 : {ctx.guild.name}"))
             await ctx.channel.send(embed=embed)
 
@@ -171,6 +174,9 @@ class Music(commands.Cog):
         voice_ok = await self.check_voice(ctx)
         if not voice_ok:
             return
+        voice = ctx.voice_client
+        usrss = voice.channel.members
+        if not ctx.author in usrss: return await ctx.message.reply(content=f"봇이 있는 음성채널로 들어와주세요!")
         queue = self.queues[str(ctx.guild.id)]
         if queue["playing"]["loop"] is not True:
             msg = await ctx.send(f"{ctx.author.mention} 🔁 이 곡을 무한반복을 활성화할까요?")
@@ -192,6 +198,9 @@ class Music(commands.Cog):
         voice_ok = await self.check_voice(ctx)
         if not voice_ok:
             return
+        voice = ctx.voice_client
+        usrss = voice.channel.members
+        if not ctx.author in usrss: return await ctx.message.reply(content=f"봇이 있는 음성채널로 들어와주세요!")
         queue = self.queues[str(ctx.guild.id)]
         if queue["playing"]["random"] is not True:
             msg = await ctx.send(f"{ctx.author.mention} 🔀랜덤기능을 활성화할까요?")
@@ -208,20 +217,26 @@ class Music(commands.Cog):
             queue["playing"]["random"] = False
             return await msg.edit(content=f"{ctx.author.mention} 랜덤기능이 비활성화되었어요! 이제 노래가 재생목록순서대로 재생될거에요!")
 
-    @commands.command(name="스킵", description="재생중인 음악을 스킵합니다.", aliases=["s", "skip", "ㄴ"])
+    @commands.command(name="스킵", description="재생중인 음악을 스킵합니다.", aliases=["s", "skip", "ㄴ", "tmzlq"])
     async def skip(self, ctx):
         voice = ctx.voice_client
         voice_ok = await self.check_voice(ctx)
         if not voice_ok:
             return
+        voice = ctx.voice_client
+        usrss = voice.channel.members
+        if not ctx.author in usrss: return await ctx.message.reply(content=f"봇이 있는 음성채널로 들어와주세요!")
         voice.stop()
 
-    @commands.command(name="정지", description="음악 재생을 멈춥니다.", aliases=["stop", "ㄴ새ㅔ", "멈춰"])
+    @commands.command(name="정지", description="음악 재생을 멈춥니다.", aliases=["stop", "ㄴ새ㅔ", "멈춰", "종료", "ajacnj"])
     async def stop(self, ctx):
         voice = ctx.voice_client
         voice_ok = await self.check_voice(ctx)
         if not voice_ok:
             return
+        voice = ctx.voice_client
+        usrss = voice.channel.members
+        if not ctx.author in usrss: return await ctx.message.reply(content=f"봇이 있는 음성채널로 들어와주세요!")
         del self.queues[str(ctx.guild.id)]
         voice.stop()
 
@@ -231,6 +246,9 @@ class Music(commands.Cog):
         voice_ok = await self.check_voice(ctx)
         if not voice_ok:
             return
+        voice = ctx.voice_client
+        usrss = voice.channel.members
+        if not ctx.author in usrss: return await ctx.message.reply(content=f"봇이 있는 음성채널로 들어와주세요!")
         voice.pause()
         await ctx.send(f"{ctx.author.mention} ⏸ 노래재생을 일시정지했어요! 다시 계속이어서 듣고싶으면 `!다시재생`을 입력해봐요!")
 
@@ -242,25 +260,25 @@ class Music(commands.Cog):
             pass
         elif not voice_ok:
             return
+        voice = ctx.voice_client
+        usrss = voice.channel.members
+        if not ctx.author in usrss: return await ctx.message.reply(content=f"봇이 있는 음성채널로 들어와주세요!")
         voice.resume()
         await ctx.send(f"{ctx.author.mention} ▶ 일시정지인 노래재생을 이어서 다시 재생할게요!")
-
-    @commands.command(name="강제연결해제", description="봇 오류로 음악 재생에 문제가 발생했을 때 강제로 접속을 해제합니다.", aliases=["나가", "제발나가", "quit", 'leave', 'l', "ㅣ", "dc"])
-    async def force_quit(self, ctx):
-        voice = ctx.voice_client
-        await voice.disconnect(force=True)
-        await ctx.send(f"🚫 {self.bot.user.name}을 강제로 음성채널에서 나갔습니다!")
 
     @commands.command(name="볼륨", description="음악의 볼륨을 조절합니다.", aliases=["volume", "vol", "v", "패ㅣㅕㅡㄷ", "ㅍ"])
     async def volume(self, ctx, vol: int = None):
         if vol > 100:
-            return await ctx.send(f"숫자가 너무 작아요! {ctx.author}님의 귀를 보호하기 위해서 100이상으로는 볼륨을 조절하지못해요!")
+            return await ctx.message.reply(f"숫자가 너무 커요! {ctx.author.mention}님의 귀를 보호하기 위해서 100이상으로는 볼륨을 조절하지못해요!")
         if vol <= 0:
-            return await ctx.send("숫자가 너무 작아요! 노래을 듣고 싶으신건가요..?")
+            return await ctx.message.reply("숫자가 너무 작아요! 노래을 듣고 싶으신건가요..?")
         queue = self.queues[str(ctx.guild.id)]
         voice_ok = await self.check_voice(ctx)
         if not voice_ok:
             return
+        voice = ctx.voice_client
+        usrss = voice.channel.members
+        if not ctx.author in usrss: return await ctx.message.reply(content=f"봇이 있는 음성채널로 들어와주세요!")
         current_vol = float(queue["playing"]["vol"])
         if vol is None:
             return await ctx.send(f"{ctx.author.mention} 현재 볼륨은 `{current_vol * 100}%` 입니다!")
@@ -310,9 +328,7 @@ class Music(commands.Cog):
             queue_vid_url = queue_list[x]["vid_url"]
             queue_vid_title = queue_list[x]["vid_title"]
             queue_req_by = self.bot.get_user(int(queue_list[x]["req_by"]))
-            ql_embed.add_field(name="재생 목록" + str(ql_num),
-                               value=f"제목: [`{queue_vid_title}`]({queue_vid_url})\n재생 요청자: {queue_req_by.mention}\n(`{queue_req_by}`)",
-                               inline=True)
+            ql_embed.add_field(name="재생 목록" + str(ql_num),value=f"제목: [`{queue_vid_title}`]({queue_vid_url})\n재생 요청자: {queue_req_by.mention}\n(`{queue_req_by}`)",inline=True)
             ql_num += 1
         next_song = queue_list[list(queue_list.keys())[1]]
         next_embed = discord.Embed(title="다음곡", color=tool.Color.yellow)
@@ -322,15 +338,23 @@ class Music(commands.Cog):
         next_vid_channel_url = next_song["vid_channel_url"]
         next_thumb = next_song["thumb"]
         next_req_by = self.bot.get_user(int(next_song["req_by"]))
-        next_embed.add_field(name="정보",
-                             value=f"업로더: [`{next_vid_author}`]({next_vid_channel_url})\n제목: [`{next_vid_title}`]({next_vid_url})",
-                             inline=False)
+        next_embed.add_field(name="정보",value=f"업로더: [`{next_vid_author}`]({next_vid_channel_url})\n제목: [`{next_vid_title}`]({next_vid_url})",inline=False)
         next_embed.add_field(name="재생 요청자", value=f"{next_req_by.mention}\n(`{next_req_by}`)", inline=True)
         next_embed.set_author(name=ctx.guild.name, icon_url=ctx.guild.icon_url)
         next_embed.set_thumbnail(url=next_thumb)
         embed_list.append(ql_embed)
         embed_list.append(next_embed)
         await page.start_page(self.bot, ctx, embed_list, embed=True)
+
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        if after.channel is None:
+            if int(len(before.channel.members) - 1) <= 0:
+                if str(member.guild.id) in self.queues.keys():
+                    voice = member.guild.voice_client
+                    del self.queues[str(member.guild.id)]
+                    voice.stop()
+
 
 
 def setup(bot):

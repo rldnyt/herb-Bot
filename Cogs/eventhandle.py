@@ -79,6 +79,7 @@ class Events(commands.Cog):
             embed = discord.Embed(description=f"이런! 봇에게 권한이 부족합니다! 아래에 권한을 봇에게 지급 해주세요!\n\n**필요 하는 권한**\n{str(a)}", color=tool.Color.green)
         else:
             if "Unknown Message" in str(error): return
+            if "Not connected to voice" in str(error): await ctx.message.reply(embed=discord.Embed(description=f"봇또는 사용자가 음성 채널에 접속이 안되어있는것같아요! 다시 시도해보시겠어요?", color=tool.Color.green))
             embed.add_field(name="버그가 발생했어요!", value="오류내용이 개발팀으로 전송되었습니다! 최대한 빨리 해결하겠습니다!", inline=False)
             webhook.send(f"<@{BotSettings.botowner}>",embed=discord.Embed(color=tool.Color.red, title="⚠ ERROR!",description=f"**오류**\n> ```{str(error)}```\n\n**정보**\n> 사용자 : {ctx.author}\n> └ {ctx.author.mention}\n> └ {ctx.author.id}\n메시지 : {ctx.message.content}"))
         await ctx.message.reply(embed=embed)
