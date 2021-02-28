@@ -40,7 +40,7 @@ class Game(commands.Cog):
                 contentss = random.choice(korean_list)
                 files = contentss.replace(".", "")
                 file = discord.File(f'./typewriter/korean/{files}.png', filename=f'{files}.png')
-                await ctx.channel.send(ctx.author.mention,file=file)
+                await ctx.channel.send(file=file)
                 begin = time.time()
                 while True:
                     try:
@@ -56,7 +56,7 @@ class Game(commands.Cog):
                             break
                         else:
                             continue
-                    except asyncio.TimeoutError:
+                    except TimeoutError:
                         await ctx.channel.send(embed=discord.Embed(description="이런! 60초나 타자를 치시지 않으셨네요.. 타자 게임을 종료합니다!", color=tool.Color.green))
                         break
             else: return await ctx.channel.send(embed=discord.Embed(description=f"`{language}`언어는 없습니다! 현재는 `한국어` 만 있습니다."))

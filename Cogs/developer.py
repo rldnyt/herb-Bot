@@ -149,7 +149,7 @@ class Developer(commands.Cog):
     @commands.command(name="pip", aliases=["라이브러리", "모듈"], pass_context=True)
     async def pip(self, ctx, command:str=None,*,command2:str=None):
         if not int(ctx.author.id) in config.BotSettings.updeveloper: return await ctx.message.reply(f'이런! 권한이 없으신것같아요.. 이 명령어는 개발자 명령어 인것같아요.')
-        if command is None: return await ctx.message.reply(f'cmd에서 실행하시려는 것을 입력해주세요!')
+        if command is None: return await ctx.message.reply(f'실행하시려는 것을 입력해주세요!')
         if command == "설치" or command == "install":
             if command2 is None: return await ctx.message.reply(f'설치하려는 라이브러리의 이름을 입력해주세요.')
             msg = await ctx.channel.send(embed=discord.Embed(description=f"<a:loading8:813962183239139341> 잠시만 기다려주세요! 설치중입니다.", color=tool.Color.green))

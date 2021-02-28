@@ -1,4 +1,10 @@
 {
+  "page2": {
+    "news_icon": "https://media.discordapp.net/attachments/799570426241089556/814292742338773032/eafd40ccea19752e.png?width=676&height=676",
+    "news_name": "허브 뉴스",
+    "title": "2021년 02월 28일 업데이트",
+    "content": "**뮤트 시스테 추가**\n> `뮤트, 언뮤트, 뮤트생성` 시스템이 추가되었습니다. 뮤트시 뮤트대상의 역활을 제거후 뮤트역활 지급, 언뮤트시 제거되었던 역활를 다시 지급합니다.\n\n**경제 시스템추가**\n> 경제 시스템이 추가되었습니다. 현재는 개발중이기에 `돈, 송금, 돈받기`만 있습니다."
+  },
   "page1": {
     "news_icon": "https://media.discordapp.net/attachments/799570426241089556/814292742338773032/eafd40ccea19752e.png?width=676&height=676",
     "news_name": "허브 뉴스",

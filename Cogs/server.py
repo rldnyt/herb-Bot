@@ -12,9 +12,9 @@ import os
 import sqlite3
 
 tool.database.add.table(self=None, dbfile=config.BotSettings.dbname, tablename="logchannel",tabledata="channelid INTEGER PRLMARY KEY, guildid INTEGER PRLMARY KEY")
+tool.database.add.table(self=None, dbfile=config.BotSettings.dbname, tablename="mute",tabledata="guild INTEGER PRLMARY KEY, user INTEGER PRLMARY KEY, role TEXT PRLMARY KEY, code TEXT PRLMARY KEY")
 
 class Server(commands.Cog):
-
     def __init__(self, app):
         self.app = app
 
@@ -88,8 +88,6 @@ class Server(commands.Cog):
             data = channelid, guildid
             tool.database.update.data(self=None, dbfile=config.BotSettings.dbname, tablename="logchannel", dataname="guildid = ?", data=guildid, tabledata_the_number="?,?", tabledata=data)
             await ctx.message.reply(embed=discord.Embed(description=f"{channelcontent.mention}으로 로그채널이 설정되었습니다!", timestamp=ctx.message.created_at, color=tool.Color.green))
-
-
 
 
 def setup(app):

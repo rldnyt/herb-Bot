@@ -10,6 +10,7 @@ import tool
 import config
 import os
 import json
+import sys
 class Core(commands.Cog):
 
     def __init__(self, app):
@@ -19,21 +20,30 @@ class Core(commands.Cog):
     async def help_command(self, ctx, c:str=None):
         if c is None:
             embed = discord.Embed(title=f"{self.app.user.name}의 도움말",description=f"접두사는 `{config.BotSettings.prefix}`입니다! 명령어 사용시 앞에 {config.BotSettings.prefix}를 붙혀주세요\n(예: {config.BotSettings.prefix}도움말)",  timestamp=ctx.message.created_at, color=tool.Color.green)
-            embed.add_field(name="✨ 기본", value="도움말, 봇정보, 뉴스", inline=True)
+            embed.add_field(name="✨ 기본", value="도움말, 봇정보, 뉴스, 핑", inline=True)
             embed.add_field(name="🛠 개발자", value="eval, 공지, reload, cmd, pip", inline=True)
-            embed.add_field(name="📔 서버", value="채팅청소, 슬로우, 로그", inline=True)
+            embed.add_field(name="📔 서버", value="채팅청소, 슬로우, 로그, 뮤트", inline=True)
             embed.add_field(name="🎮 게임", value="타자", inline=True)
             embed.add_field(name="🎶 뮤직", value="재생, 반복, 랜덤, 스킵, 정지, 일시정지, 계속재생, 볼륨, 재생목록", inline=False)
+            embed.add_field(name="💵 경제", value="돈, 돈받기", inline=False)
 
         elif c == "서버":
             embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 서버",description=f"접두사는 `{config.BotSettings.prefix}`입니다! 명령어 사용시 앞에 {config.BotSettings.prefix}를 붙혀주세요\n(예: {config.BotSettings.prefix}도움말)",  timestamp=ctx.message.created_at, color=tool.Color.green)
             embed.add_field(name="채팅청소 [청소하려는 수]", value="명령어를 실행한 채널에 청소수 만큼 채팅을 삭제합니다.", inline=False)
             embed.add_field(name="슬로우 [설정하려는 딜레이]", value="명령어를 사용한 채널의 슬로우를 설정합니다.", inline=False)
             embed.add_field(name="로그 <채널>", value="로그 채널을 확인합니다.", inline=False)
+            embed.add_field(name="뮤트 [유저 - 멘션 또는 ID] <이유>", value="유저를 뮤트합니다.", inline=False)
+            embed.add_field(name="언뮤트 [유저 - 멘션 또는 ID]", value="뮤트 상태인 유저를 언뮤트 합니다.", inline=False)
+            embed.add_field(name="뮤트생성", value="뮤트 역활, 뮤트 채너 설정을 자동으로 실행합니다.", inline=False)
 
         elif c == "게임":
             embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 게임",description=f"접두사는 `{config.BotSettings.prefix}`입니다! 명령어 사용시 앞에 {config.BotSettings.prefix}를 붙혀주세요\n(예: {config.BotSettings.prefix}도움말)",  timestamp=ctx.message.created_at, color=tool.Color.green)
             embed.add_field(name="타자 [모드] [언어]", value="타자게임을 실행합니다! 베타기능.", inline=False)
+
+        elif c == "경제" or c == "경재":
+            embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 게임",description=f"접두사는 `{config.BotSettings.prefix}`입니다! 명령어 사용시 앞에 {config.BotSettings.prefix}를 붙혀주세요\n(예: {config.BotSettings.prefix}도움말)",  timestamp=ctx.message.created_at, color=tool.Color.green)
+            embed.add_field(name="돈 <유저 - 멘션또는 ID>", value="자기자신의 또는 다른 유저의 소유중인 돈을 확인합니다.", inline=False)
+            embed.add_field(name="돈받기", value="돈을 지급 받습니다.", inline=False)
 
         elif c == "뮤직" or c == "음성" or c == "음악":
             embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 재생",description=f"접두사는 `{config.BotSettings.prefix}`입니다! 명령어 사용시 앞에 {config.BotSettings.prefix}를 붙혀주세요\n(예: {config.BotSettings.prefix}도움말)",  timestamp=ctx.message.created_at, color=tool.Color.green)
@@ -52,6 +62,7 @@ class Core(commands.Cog):
             embed.add_field(name="도움말 <카테고리 또는 명령어>", value="해당 카테고리의 명령어로를 확인하거나 명령어의 자세한 정보를 확인합니다.", inline=False)
             embed.add_field(name="봇정보", value="봇의 정보를 확인해요.", inline=False)
             embed.add_field(name="뉴스", value="경제 시스템 뉴스나 봇의 업데이트 뉴스를 확인해요!", inline=False)
+            embed.add_field(name="핑", value="봇의 핑를 확인합니다!", inline=False)
 
         elif c == "개발자":
             embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 개발자",description=f"접두사는 `{config.BotSettings.prefix}`입니다! 명령어 사용시 앞에 {config.BotSettings.prefix}를 붙혀주세요\n(예: {config.BotSettings.prefix}도움말)",  timestamp=ctx.message.created_at, color=tool.Color.green)
@@ -63,6 +74,7 @@ class Core(commands.Cog):
         elif c == "도움말" or c == "명령어": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 도움말",description=f"**설명**\n> {self.app.user.name}의 모든 명령어들을 확인할수 있는 명령어 입니다. 특정 카테고리또는 명령어의 자세한 정보를 알수있습니다.\n\n**사용방법**\n> {config.BotSettings.prefix}도움말 <카테고리 또는 명령어>\n\n**필요권한**\n> 없음.", timestamp=ctx.message.created_at, color=tool.Color.green)
         elif c == "봇정보" or c == "botinfo": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 봇정보",description=f"**설명**\n> {self.app.user.name}의 정보를 알수있습니다.\n\n**사용방법**\n> {config.BotSettings.prefix}봇정보\n\n**필요권한**\n> 없음.", timestamp=ctx.message.created_at, color=tool.Color.green)
         elif c == "뉴스" or c == "업데이트": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 뉴스",description=f"**설명**\n> 경제 시스템의 소식을 알거나 봇의 업데이트 정보를 확인할수 있어요!\n\n**사용방법**\n> {config.BotSettings.prefix}뉴스\n\n**필요권한**\n> 없음.", timestamp=ctx.message.created_at, color=tool.Color.green)
+        elif c == "핑" or c == "ping": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 핑",description=f"**설명**\n> 봇의 핑를 확인합니다.\n\n**사용방법**\n> {config.BotSettings.prefix}핑\n\n**필요권한**\n> 없음.", timestamp=ctx.message.created_at, color=tool.Color.green)
 
         elif c == "eval": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - eval",description=f"**설명**\n> 코드를 실행(테스트)하는 명령어 입니다.\n\n**사용방법**\n> {config.BotSettings.prefix}eval [실행하려는 코드]\n\n**필요권한**\n> {self.app.user.name}의 개발자", timestamp=ctx.message.created_at, color=tool.Color.green)
         elif c == "리로드": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 리로드 <",description=f"**설명**\n> cog을 전체를 리로드하거나 아니면 특정 파일을 리로드합니다.\n\n**사용방법**\n> {config.BotSettings.prefix}리로드 <cog파일 이름>\n\n**필요권한**\n> {self.app.user.name}의 개발자", timestamp=ctx.message.created_at, color=tool.Color.green)
@@ -73,6 +85,9 @@ class Core(commands.Cog):
         elif c == "채팅청소" or c == "clear": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 채팅청소",description=f"**설명**\n> 현재 채팅방의 원하는 수 만큼 채팅를 삭제합니다.\n\n**사용방법**\n> {config.BotSettings.prefix}채팅청소 [삭제하려는 수]\n\n**필요권한**\n> 메시지 관리권한.",timestamp=ctx.message.created_at, color=tool.Color.green)
         elif c == "슬로우" or c == "slowmode" or c == "슬로우모드" or c == "딜레이": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 슬로우",description=f"**설명**\n> 명령어를 사용한 채널에 슬로우 모드를 설정합니다. 설정한 시간은 초단위입니다.\n\n**사용방법**\n> {config.BotSettings.prefix}슬로우 [설정하려는 딜레이]\n\n**필요권한**\n> 메시지 관리권한.",timestamp=ctx.message.created_at, color=tool.Color.green)
         elif c == "로그": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 로그",description=f"**설명**\n> 로그 채널을 설정합니다.\n\n**사용방법**\n> {config.BotSettings.prefix}로그 <채널멘션 또는 채널의 ID 또는 삭제>\n\n`{config.BotSettings.prefix}로그 삭제`를 할경우 로그를 끌수있습니다.\n\n**필요권한**\n> 서버 관리권한.",timestamp=ctx.message.created_at, color=tool.Color.green)
+        elif c == "뮤트" or c == "mute": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 뮤트",description=f"**설명**\n> 해당 유저를 뮤트합니다. 뮤트는 볼수는 있지만 채팅을 못치게 하는것입니다, 뮤트시 해당유저의 역활이 모두 빠짐니다.\n\n**사용방법**\n> {config.BotSettings.prefix}뮤트 [유저 - 멘션 또는 ID] <이유>\n\n**필요권한**\n> 서버 관리권한.",timestamp=ctx.message.created_at, color=tool.Color.green)
+        elif c == "언뮤트" or c == "unmute": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 언뮤트",description=f"**설명**\n> 뮤트 상태의 유저의 뮤트를 해제합니다. 뮤트시 있던 역활들이 다시 지급됩니다.\n\n**사용방법**\n> {config.BotSettings.prefix}언뮤트 [유저 - 멘션 또는 ID]\n\n**필요권한**\n> 서버 관리권한.",timestamp=ctx.message.created_at, color=tool.Color.green)
+        elif c == "뮤트생성": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 뮤트생성",description=f"**설명**\n> 뮤트 역활, 뮤트 채널를 설정합니다.\n\n**사용방법**\n> {config.BotSettings.prefix}뮤트생성\n\n**필요권한**\n> 서버 관리권한.",timestamp=ctx.message.created_at, color=tool.Color.green)
 
         elif c == "재생" or c == "play": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 재생",description=f"**설명**\n> 접속된 음성채널에서 노래를 재생합니다.\n\n**사용방법**\n> {config.BotSettings.prefix}재생 [URL 또는 이름]\n\n**필요권한**\n> 없음.",timestamp=ctx.message.created_at, color=tool.Color.green)
         elif c == "루프" or c == "반복": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 반복",description=f"**설명**\n> 곡를 재생할때 해당 곡을 반복 재생합니다.\n\n**사용방법**\n> {config.BotSettings.prefix}반복\n\n**필요권한**\n> 없음.",timestamp=ctx.message.created_at, color=tool.Color.green)
@@ -86,6 +101,9 @@ class Core(commands.Cog):
 
         elif c == "타자": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 타자",description=f"**설명**\n> 타자 게임을 실행합니다!\n\n**사용방법**\n> {config.BotSettings.prefix}타자 [모드] [언어]\n```모드 안내\n\n솔로: 명령어를 사용한 유저만 타자게임을 합니다.```\n```언어 안내\n한국어 : 한국어 타자를 합니다.```\n\n배타기능.\n\n**필요권한**\n> 없음.",timestamp=ctx.message.created_at, color=tool.Color.green)
 
+        elif c == "돈": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 돈",description=f"**설명**\n> 자기자신의 또는 다른 유저의 소유중인 돈을 확인합니다.\n\n**사용방법**\n> {config.BotSettings.prefix}돈 <멘션또는 ID>\n\n**필요권한**\n> 없음.",timestamp=ctx.message.created_at, color=tool.Color.green)
+        elif c == "돈받기": embed = discord.Embed(title=f"{self.app.user.name}의 도움말 - 돈받기",description=f"**설명**\n> 30분마다 돈을 받습니다.\n\n**사용방법**\n> {config.BotSettings.prefix}돈받기\n\n**필요권한**\n> 없음.",timestamp=ctx.message.created_at, color=tool.Color.green)
+
         else: return await ctx.message.reply(f"`{c}` 카테고리 또는 명령어가 존제 하지 않습니다.")
         await ctx.channel.send(embed=embed.set_footer(text=f"{config.BotSettings.prefix}도움말 <카테고리 또는 명령어> 로 자세하게 알수 있어요!").set_footer(text="[]는 필수, <>는 선택 입니다.").set_thumbnail(url=self.app.user.avatar_url))
 
@@ -97,8 +115,10 @@ class Core(commands.Cog):
         embed.set_thumbnail(url=self.app.user.avatar_url)
         embed.add_field(name="🛠️ 개발자", value=developers, inline=False)
         embed.add_field(name="📝 봇 이름", value=self.app.user.name, inline=True)
-        embed.add_field(name="📃 봇 버전", value="Bata 0.8 - 2021 02 25 release", inline=True)
+        embed.add_field(name="📃 봇 버전", value="Bata 1.0 - 2021 02 28 release", inline=True)
         embed.add_field(name="📡 접속 서버 수 / 유저 수", value=f"{len(self.app.guilds)}서버 / {len(self.app.users)}명", inline=True)
+        embed.add_field(name="<:python:814323933012033617> Discord.py 버전 / 파이썬 버전", value=f"{discord.__version__} / {sys.version.split(' ')[0]}", inline=True)
+        embed.add_field(name="<:datacheck:814061508169302016> DB 파일용량", value=f'{os.path.getsize(f"{config.BotSettings.dbname}.db")}byte', inline=True)
         embed.add_field(name="🔗 봇 링크", value="[<:github_icon:813986156819644497> <:github_1:813986156839698482><:github_2:813986156659081256><:github_3:813986156685033552>](https://github.com/rldnyt/herb-Bot)", inline=False)
         await ctx.channel.send(embed=embed)
 
@@ -130,12 +150,39 @@ class Core(commands.Cog):
                                 await msg.edit(embed=page[i].set_footer(text=f"페이지 : {i + 1}/{len(page)}"))
                             await msg.remove_reaction(reaction, user)
                         elif emoji == '▶':
-                            if i < page2:
+                            if i < len(page):
                                 i += 1
                                 await msg.edit(embed=page[i].set_footer(text=f"페이지 : {i + 1}/{len(page)}"))
                             await msg.remove_reaction(reaction, user)
                 except TimeoutError: break
             await msg.clear_reactions()
+
+    @commands.command(name="핑", aliases=["ping"])
+    async def ping(self, ctx):
+        nowasdf = ctx.message.created_at
+        embed = discord.Embed(title=f"{self.app.user.name}의 정보", description="잠시 기다려주세요!", color=tool.Color.yellow)
+        a = await ctx.send(embed=embed)
+        latertime = a.created_at
+        ping = latertime - nowasdf
+        asdf = str(int(ping.microseconds) / 1000)
+        asdf = asdf.split(".")
+        asdf = asdf[0]
+        asdf = int(asdf)
+        pings9 = round(self.app.latency * 1000)
+        if pings9 >= 0 and pings9 <= 100: pings = ["<:status_online:814041869788512277> 디스코드 API 핑","매우좋음"]
+        elif pings9 >= 101 and pings9 <= 200: pings = ["<:status_Good:814367785713926184> 디스코드 API 핑", "좋음"]
+        elif pings9 >= 201 and pings9 <= 500: pings = ["<:status_idle:814041869805682728> 디스코드 API 핑", "보통"]
+        elif pings9 >= 501 and pings9 <= 1000: pings = ["<:status_Not:814367785290956851> 디스코드 API 핑", "나쁨"]
+        elif pings9 >= 1000: pings = ["<:status_dnd:596576774364856321> 디스코드 API 핑", "매우나쁨"]
+        if asdf >= 0 and asdf <= 100: pings2 = ["<:status_online:814041869788512277> 메시지 핑", "매우좋음"]
+        elif asdf >= 101 and asdf <= 200: pings2 = ["<:status_Good:814367785713926184> 메시지 핑", "좋음"]
+        elif asdf >= 201 and asdf <= 500: pings2 = ["<:status_idle:814041869805682728> 메시지 핑", "보통"]
+        elif asdf >= 501 and asdf <= 1000: pings2 = ["<:status_Not:814367785290956851> 메시지 핑", "나쁨"]
+        elif asdf >= 1000: pings2 = ["<:status_dnd:596576774364856321> 메시지 핑", "매우나쁨"]
+        embed = discord.Embed(title="핑", color=tool.Color.green).set_thumbnail(url=self.app.user.avatar_url)
+        embed.add_field(name=pings[0], value=f"{str(pings9)}ms | {pings[1]}", inline=True)
+        embed.add_field(name=pings2[0], value=f"{str(asdf)}ms | {pings2[1]}", inline=True)
+        await a.edit(embed=embed)
 
 
 def setup(app):
