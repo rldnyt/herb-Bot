@@ -14,17 +14,32 @@ class BotSettings:
 
     logwebid: 로그(봇실행, 에러알림)의 채널의 ID
     logwebtoken: 로그(봇실행, 에러알림)의 채널의 토큰
+
+    dbname: DB파일 이름
     """
     TOKEN = ""
     TESTBOT_TOKEN = ""
-    prefix = "="
+    prefix = ""
     TEST_mode = True
     developer = []
     updeveloper = []
     state = []
-    statetime = 10
+    statetime = 15
 
     botowner = 
+
+    logwebid = 
+    logwebtoken = ""
+
+    dbname = ""
+
+class BankSettings:
+    """
+    Bank 시스템의 세팅
+
+    logwebid: 로그(DB 변경)의 채널의 ID
+    logwebtoken: 로그(DB 변경)의 채널의 토큰
+    """
 
     logwebid = 
     logwebtoken = ""
